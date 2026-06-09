@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <div id="d1"></div>
+
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<!-- React JS는 interactive 한 UI 생성에 도움-->
+
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<!--React element를 html에 넣을 수 있게 함-->
+
+<script>
+    const div = document.querySelector("#d1");
+    const area = React.createElement("span", { id: "sp", style:{color: "red"} }, "Hi there!");
+    ReactDOM.render(area, div)
+    // render(React element, html element(for location))
+</script>
+
+</html>
