@@ -17,8 +17,21 @@
 
 <script>
     const div = document.querySelector("#d1");
-    const area = React.createElement("span", { id: "sp", style:{color: "red"} }, "Hi there!");
-    ReactDOM.render(area, div)
+    // grab an element from html document
+    
+    const bt = React.createElement("button", {
+        onClick: () => console.log("clicked!!")
+    }, "Clcik me");
+    const area = React.createElement("h2", {
+        onMouseEnter: () => console.log("mouse came"),
+        // set eventListener in property area, and set the function
+         id: "sp", 
+         style:{color: "red"} ,
+        }, "This is click");
+    // create React elements
+
+    const container = React.createElement("div", null, [area, bt]);
+    ReactDOM.render(container, div)
     // render(React element, html element(for location))
 </script>
 
