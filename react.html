@@ -12,30 +12,35 @@
 <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<!-- Import Babel transformer-->
 <script type="text/babel">
-    // the mentioning type is needed becasue the syntex below is JSX
     const div = document.querySelector("#d1");
     const BtJSX = () => (
         <button
             style={{
                 backgroundColor: "tomato",
-            }} // Reat's style takes object. The object is expressed in {}
+            }} 
             onClick={() => console.log("clicked!!")}>Click me</button>);
-    // This code is defining a function creating a button
-    // So, this component can be reused at the other place
 
     const H3 = () => (<h3 id="jsxId" style={{color:"red"}} onMouseEnter={() => console.log("mouser came")}>Hi there!</h3>);
+    let count = 0;
+    function countUp(){
+        count += 1;
+        render();
+    }
+    
+    function render(){
+        ReactDOM.render(<Container />, div);
+    }
+    // It only renders the changed part, not refresh the whole page
+    // 렌더링: React가 화면 일부 또는 전체 UI를 다시 계산해서 갱신하는 것
+    // refreshing: 전체 페이지를 다시 로드하는 것
 
     const Container = () =>
         <div>
-            <H3 />
-            <BtJSX />             
-        </div>;
-        // Two components are called inside of Container component
-    ReactDOM.render(<Container />, div);
-    // If Container is called, it will return element <div> that contain two components
-    // and H#, BtJSX will be created at the same time
+            <h3>Total count: {count}</h3>
+            <button style={{backgroundColor:"red"}} onClick={() => countUp()}>Click me</button>
+        </div>
+    render();
 </script>
 
 </html>
