@@ -14,33 +14,22 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
     const div = document.querySelector("#d1");
-    const BtJSX = () => (
-        <button
-            style={{
-                backgroundColor: "tomato",
-            }} 
-            onClick={() => console.log("clicked!!")}>Click me</button>);
-
-    const H3 = () => (<h3 id="jsxId" style={{color:"red"}} onMouseEnter={() => console.log("mouser came")}>Hi there!</h3>);
-    let count = 0;
-    function countUp(){
-        count += 1;
-        render();
-    }
-    
-    function render(){
-        ReactDOM.render(<Container />, div);
-    }
-    // It only renders the changed part, not refresh the whole page
-    // 렌더링: React가 화면 일부 또는 전체 UI를 다시 계산해서 갱신하는 것
-    // refreshing: 전체 페이지를 다시 로드하는 것
-
-    const Container = () =>
-        <div>
+    const Container = () => { // ()는 내부의 값을 반환한다는 의미, 내부에 많은것을작성해야 할 때는 {}사용할 것
+        const [count, setCount] = React.useState(0);
+        const modify = () => {
+            setCount(count + 1);
+            // useState가 반환한 두 번째 값인 setter 함수.
+            // count state를 새 값으로 바꾸라고 React에게 요청한다. 
+            // 이 요청 때문에 Container 컴포넌트가 다시 렌더링된다.
+            // Container 내부 state의 변경을 최신화 하는것
+        }
+        return (<div>
             <h3>Total count: {count}</h3>
-            <button style={{backgroundColor:"red"}} onClick={() => countUp()}>Click me</button>
-        </div>
-    render();
+            <button style={{ backgroundColor: "red" }}/*onClick={() => modify()}이렇게 해도 된다*/ onClick={modify}>Click me</button>                                                        
+        </div>); // return value
+    };
+
+    ReactDOM.render(<Container />, div);
 </script>
 
 </html>
