@@ -17,11 +17,9 @@
     const Container = () => { // ()는 내부의 값을 반환한다는 의미, 내부에 많은것을작성해야 할 때는 {}사용할 것
         const [count, setCount] = React.useState(0);
         const modify = () => {
-            setCount(count + 1);
-            // useState가 반환한 두 번째 값인 setter 함수.
-            // count state를 새 값으로 바꾸라고 React에게 요청한다. 
-            // 이 요청 때문에 Container 컴포넌트가 다시 렌더링된다.
-            // Container 내부 state의 변경을 최신화 하는것
+            setCount((current) => current + 1);
+            // count값을 매개변수로 받아로 오른쪽을 실행
+            // 여기서 count의 값이 변하게됨
         }
         return (<div>
             <h3>Total count: {count}</h3>
