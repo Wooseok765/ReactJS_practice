@@ -13,50 +13,118 @@
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
-    const Container = () => {
+    const MinToHour = () => {
         const [time, setTime] = React.useState(0);
-        const myChange = (event) => { // got an event when onChange is executed
-            setTime(event.target.value); // 입력된 데이터를 minutes state로 덮어씌움
+        const myChange = (event) => {
+            setTime(event.target.value);
         };
 
-        const myReset = () => { //  한 줄짜리는 중괄호 없어도 됨, arrow function 값을 자동으로 반환함. 중괄호의 경우 return표시를 해야함
-            setTime(0) // 최신화되어있는 minutes에 0을 곱하여 전체 minutes를 0으로 바꿈
+        const myReset = () => {
+            setTime(0)
         }
 
         const [fliped, setFliped] = React.useState(false);
         const myFlip = () => {
             myReset();
-            setFliped((currentFliped) => !currentFliped); // 현재 fliped를 currentFliped를 placeholder로 받아서 반대로 만드는 것
+            setFliped((currentFliped) => !currentFliped);
         }
 
         return (<div>
-            <h3>Super Converter</h3>
             <div>
                 <label for="min">Minutes</label>
                 <input
-                    value={fliped ? time * 60 : time} // fliped가 true 일때는 time*60, false일때는 time을 표기
-                    // 반대의 경우 hour에서 입력한 값에 60을 곱한 값이 표기되며 disabled에 의해 입력불가상태가 됨
+                    value={fliped ? time * 60 : time}
                     id="min"
-                    placeholder="Minuites" // state 초기값이 0이라서 표시 안됨(위의 value가 해당 칸에 state를 넣어버림)
+                    placeholder="Minuites"
                     type="number"
                     onChange={myChange}
-                    disabled={fliped === true} //fliped의 상태가 true일 경우 disabled 활성화(입력불가상태). fliped는 리셋버튼 클릭 시 myFlip에서 바뀜
+                    disabled={fliped === true}
                 />
             </div>
             <div>
                 <label for="h">Hours</label>
                 <input
-                    value={fliped ? time : Math.round(time / 60)} // flip버튼 안누른 최초상태일 때 minute에 입력한 값에 60을 나눈값을 보여줌
+                    value={fliped ? time : Math.round(time / 60)}
                     id="h"
                     placeholder="Hours"
                     type="number"
                     onChange={myChange}
-                    disabled={!fliped} // 초기값이 false니까 그 반대는 true, true일 때 disabled가 활성화 되니까 최초상태일 때 입력불가
-                     /> 
+                    disabled={!fliped}
+                />
             </div>
             <button onClick={myReset}>Reset</button>
-            <button onClick={myFlip}>{fliped ? "fliped가 true인 상태" : "fliped가 false인 상태"}</button>
+            <button onClick={myFlip}>{fliped ? "Mins to Hours" : "Hours to Mins"}</button>
         </div>);
+
+    };
+    
+    const KmToMile = () => {
+        const [speed, setSpeed] = React.useState(0);
+        const myUnit = (event) => {
+            setSpeed(event.target.value);
+        };
+
+        const myReset = () => {
+            setSpeed(0)
+        }
+
+        const [fliped, setFliped] = React.useState(false);
+        const myFlip = () => {
+            myReset();
+            setFliped((currentFliped) => !currentFliped);
+        }
+
+        return (<div>
+            <div>
+                <label for="km">Kilometre</label>
+                <input
+                    value={fliped ? speed * 1.60934 : speed}
+                    id="km"
+                    placeholder="Minuites"
+                    type="number"
+                    onChange={myUnit}
+                    disabled={fliped === true}
+                />
+            </div>
+            <div>
+                <label for="mile">Mile</label>
+                <input
+                    value={fliped ? speed : speed * 0.621371}
+                    id="mile"
+                    placeholder="Hours"
+                    type="number"
+                    onChange={myUnit}
+                    disabled={!fliped}
+                />
+            </div>
+            <button onClick={myReset}>Reset</button>
+            <button onClick={myFlip}>{fliped ? "Km to Mile" : "Mile to Km"}</button>
+        </div>);
+    };
+    const Container = () => {
+        const [index, setIndex] = React.useState("x");
+        const onSelect = (event) => {
+            setIndex(event.target.value);
+        }
+        return (
+            <div>
+                
+                <h1>Super Converter</h1>
+                <select onChange={onSelect}>
+                    <option value="x"> Choose a convertor</option> 
+                    <option value="0"> Time convertor</option>
+                    <option value="1"> Speed convertor</option>
+                </select>
+                {index === "x" ? null:null}
+                {index === "0" ? <MinToHour /> : null}
+                {index === "1" ? <KmToMile /> : null}
+            </div>
+            // option에 value를 부여하여 해당 옵션 선택 시 식별번호로 사용
+            // oprion들이 들어있는 select에 onChange 이벤트 리스너를 부여하고 onSelect라는 컴포넌트를 실행하도록 함
+            // onSelect 실행 시 매개변수 event에서 추출된 value(x, 0, 1 중 하나)에 따라 index가 달라짐
+            // 각 index에 따라 컴포넌트를 호출하여 화면에 표시(select 밖에 작성된 conditional statement)
+            
+        )
     };
     const div = document.querySelector("#d1");
     ReactDOM.render(<Container />, div);
