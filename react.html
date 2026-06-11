@@ -13,117 +13,30 @@
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
-    const MinToHour = () => {
-        const [time, setTime] = React.useState(0);
-        const myChange = (event) => {
-            setTime(event.target.value);
-        };
 
-        const myReset = () => {
-            setTime(0)
-        }
-
-        const [fliped, setFliped] = React.useState(false);
-        const myFlip = () => {
-            myReset();
-            setFliped((currentFliped) => !currentFliped);
-        }
-
-        return (<div>
-            <div>
-                <label for="min">Minutes</label>
-                <input
-                    value={fliped ? time * 60 : time}
-                    id="min"
-                    placeholder="Minuites"
-                    type="number"
-                    onChange={myChange}
-                    disabled={fliped === true}
-                />
-            </div>
-            <div>
-                <label for="h">Hours</label>
-                <input
-                    value={fliped ? time : Math.round(time / 60)}
-                    id="h"
-                    placeholder="Hours"
-                    type="number"
-                    onChange={myChange}
-                    disabled={!fliped}
-                />
-            </div>
-            <button onClick={myReset}>Reset</button>
-            <button onClick={myFlip}>{fliped ? "Mins to Hours" : "Hours to Mins"}</button>
-        </div>);
-
-    };
-    
-    const KmToMile = () => {
-        const [speed, setSpeed] = React.useState(0);
-        const myUnit = (event) => {
-            setSpeed(event.target.value);
-        };
-
-        const myReset = () => {
-            setSpeed(0)
-        }
-
-        const [fliped, setFliped] = React.useState(false);
-        const myFlip = () => {
-            myReset();
-            setFliped((currentFliped) => !currentFliped);
-        }
-
-        return (<div>
-            <div>
-                <label for="km">Kilometre</label>
-                <input
-                    value={fliped ? speed * 1.60934 : speed}
-                    id="km"
-                    placeholder="Minuites"
-                    type="number"
-                    onChange={myUnit}
-                    disabled={fliped === true}
-                />
-            </div>
-            <div>
-                <label for="mile">Mile</label>
-                <input
-                    value={fliped ? speed : speed * 0.621371}
-                    id="mile"
-                    placeholder="Hours"
-                    type="number"
-                    onChange={myUnit}
-                    disabled={!fliped}
-                />
-            </div>
-            <button onClick={myReset}>Reset</button>
-            <button onClick={myFlip}>{fliped ? "Km to Mile" : "Mile to Km"}</button>
-        </div>);
-    };
+    function CreateButton({buttonName, big}){ // object형태로 넘어온 props들의 key를 활용하는 것
+        return (
+            <button 
+            style={{
+                backgroundColor: "tomato",
+                color: "blue",
+                padding: "10px 20px",
+                border: 0,
+                borderRadius: 10,
+                fontSize : big ? 20 : 10,
+            }}>
+                {buttonName}</button>
+        )
+    }
+ 
     const Container = () => {
-        const [index, setIndex] = React.useState("x");
-        const onSelect = (event) => {
-            setIndex(event.target.value);
-        }
+        
         return (
             <div>
-                
-                <h1>Super Converter</h1>
-                <select onChange={onSelect}>
-                    <option value="x"> Choose a convertor</option> 
-                    <option value="0"> Time convertor</option>
-                    <option value="1"> Speed convertor</option>
-                </select>
-                {index === "x" ? null:null}
-                {index === "0" ? <MinToHour /> : null}
-                {index === "1" ? <KmToMile /> : null}
+               <CreateButton buttonName = "OK" big = {true}/> 
+               <CreateButton buttonName = "Cancel" big = {false}/>
             </div>
-            // option에 value를 부여하여 해당 옵션 선택 시 식별번호로 사용
-            // oprion들이 들어있는 select에 onChange 이벤트 리스너를 부여하고 onSelect라는 컴포넌트를 실행하도록 함
-            // onSelect 실행 시 매개변수 event에서 추출된 value(x, 0, 1 중 하나)에 따라 index가 달라짐
-            // 각 index에 따라 컴포넌트를 호출하여 화면에 표시(select 밖에 작성된 conditional statement)
-            
+            // 컴포넌트 생성하면서 props를 자식 component로 보내는 방법
         )
     };
     const div = document.querySelector("#d1");
