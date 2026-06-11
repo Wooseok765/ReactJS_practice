@@ -55,7 +55,7 @@
                      /> 
             </div>
             <button onClick={myReset}>Reset</button>
-            <button onClick={myFlip}>flip</button>
+            <button onClick={myFlip}>{fliped ? "fliped가 true인 상태" : "fliped가 false인 상태"}</button>
         </div>);
     };
     const div = document.querySelector("#d1");
