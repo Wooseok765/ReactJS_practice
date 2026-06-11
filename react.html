@@ -14,33 +14,48 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
     const Container = () => {
-        const [minutes, setMinutes] = React.useState("");
+        const [time, setTime] = React.useState(0);
         const myChange = (event) => { // got an event when onChange is executed
-            setMinutes(event.target.value); // 입력된 데이터를 minutes state로 덮어씌움
+            setTime(event.target.value); // 입력된 데이터를 minutes state로 덮어씌움
         };
-        const myReset = () => {
-            setMinutes(minutes * 0) // 최신화되어있는 minutes에 0을 곱하여 전체 minutes를 0으로 바꿈
+
+        const myReset = () => { //  한 줄짜리는 중괄호 없어도 됨, arrow function 값을 자동으로 반환함. 중괄호의 경우 return표시를 해야함
+            setTime(0) // 최신화되어있는 minutes에 0을 곱하여 전체 minutes를 0으로 바꿈
         }
+
+        const [fliped, setFliped] = React.useState(false);
+        const myFlip = () => {
+            myReset();
+            setFliped((currentFliped) => !currentFliped); // 현재 fliped를 currentFliped를 placeholder로 받아서 반대로 만드는 것
+        }
+
         return (<div>
             <h3>Super Converter</h3>
             <div>
                 <label for="min">Minutes</label>
                 <input
-                    value={minutes}
-                    /*input 안에 현재 rerender된 minutes state 값을 다시 표시함. 현재 창에 보이는 글자는 myChange작동 후 변환된 state를 다시 작성시켜놓은것*/
-                    // 현재 기능 상 유저가 작성하는 공간에 value={minutes}를 했기 때문에 의미가 없지만 이렇게 하면 직접적인 컨트롤이 가능함
-                    // value="hi" input에 hi라는 문자열을 채워넣음
-                    id="min" placeholder="Minuites" type="number"
+                    value={fliped ? time * 60 : time} // fliped가 true 일때는 time*60, false일때는 time을 표기
+                    // 반대의 경우 hour에서 입력한 값에 60을 곱한 값이 표기되며 disabled에 의해 입력불가상태가 됨
+                    id="min"
+                    placeholder="Minuites" // state 초기값이 0이라서 표시 안됨(위의 value가 해당 칸에 state를 넣어버림)
+                    type="number"
                     onChange={myChange}
-                // onChange를 myChange를 작동시키지 않으면 value부분에서 minutes의 초기값 0을 계속 표시하기 때문에
-                // input에 숫자를 타이핑 해도 input칸에서 볼 수 없다(입력은 되었지만 state인 mimutes를 계속 표기)
+                    disabled={fliped === true} //fliped의 상태가 true일 경우 disabled 활성화(입력불가상태). fliped는 리셋버튼 클릭 시 myFlip에서 바뀜
                 />
             </div>
             <div>
                 <label for="h">Hours</label>
-                <input value={Math.round(minutes / 60)} id="h" placeholder="Hours" type="number" />
+                <input
+                    value={fliped ? time : Math.round(time / 60)} // flip버튼 안누른 최초상태일 때 minute에 입력한 값에 60을 나눈값을 보여줌
+                    id="h"
+                    placeholder="Hours"
+                    type="number"
+                    onChange={myChange}
+                    disabled={!fliped} // 초기값이 false니까 그 반대는 true, true일 때 disabled가 활성화 되니까 최초상태일 때 입력불가
+                     /> 
             </div>
             <button onClick={myReset}>Reset</button>
+            <button onClick={myFlip}>flip</button>
         </div>);
     };
     const div = document.querySelector("#d1");
