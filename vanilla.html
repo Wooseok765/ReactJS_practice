@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReactJS</title>
+</head>
+<body>
+    <button id="btn"> click me</button>
+    <span>Total Count: 0</span>
+</body>
+<script>
+        let countingNumber = 0;
+        function clickHandler(event){
+            const textArea = document.querySelector("span");
+            countingNumber += 1;
+            textArea.innerText = `Total Count: ${countingNumber}`;
+        }
+        const button = document.querySelector("button#btn");
+        button.addEventListener("click", clickHandler);
+    </script>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <div id="d1"></div>
+
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+// prop들에 타입을 부여하는 패키지
+<script type="text/babel">
+
+    function CreateButton({ buttonName, fSize = 10, click }) { // 폰트 최소 사이즈 부여
+        return (
+            <button
+                onClick={click} // 버튼에서 click 액션을 인지하면 부모로부터 받은 click을 실행(즉, changeName 컴포넌트(함수) 실행하는것)
+                style={{
+                    backgroundColor: "tomato",
+                    color: "blue",
+                    padding: "10px 20px",
+                    border: 0,
+                    borderRadius: 10,
+                    fontSize: fSize,
+                }}>
+                {buttonName}</button>
+        )
+    }
+
+    CreateButton.propTypes = {
+        buttonName: PropTypes.string.isRequired,
+        fSize: PropTypes.number,
+    }
+    // 프롭들의 타입을 지정, isRequired로 강제성 부여(없어도 실행은 되는데 required라고 경고뜸)
+
+    const Container = () => {
+        const [value, setValue] = React.useState("save button");
+        const changeName = () => setValue("cancel button");
+
+        return (
+            <div>
+                <CreateButton buttonName="OK" fSize={20} click={changeName}/*click이라는 이름으로 버튼생성 함수에 changeName함수 보내는것*/ />
+                <CreateButton buttonName="Cancel" fSize={20} / /*함수 호출하는곳에 이벤트 리스너 넣지못함*/>
+            </div>
+            // 컴포넌트 생성하면서 props를 자식 component로 보내는 방법
+        )
+    };
+    const div = document.querySelector("#d1");
+    ReactDOM.render(<Container />, div);
+</script>
+
+</html>
